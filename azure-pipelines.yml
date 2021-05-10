@@ -40,6 +40,9 @@ stages:
             displayName: "Write build info"
             workingDirectory: $(wwwrootDir)
 
+          - script: 'echo "$(Build.SourceBranchName), $(buildConfiguration)"'
+            displayName: "test endo"
+
           - task: DotNetCoreCLI@2
             displayName: "Restore project dependencies"
             inputs:
@@ -72,7 +75,7 @@ stages:
       and
       (
         succeeded(),
-        eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+        eq(variables['Build.SourceBranchName'], variables['buildConfiguration'])
       )
     jobs:
       - deployment: Deploy
