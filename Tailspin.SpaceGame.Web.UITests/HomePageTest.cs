@@ -9,6 +9,7 @@ using System.Collections;
 
 namespace UITests
 {
+    // 各ブラウザでそれぞれテストを実施する
     [TestFixture("Chrome")]
     [TestFixture("Firefox")]
     [TestFixture("Edge")]
@@ -19,9 +20,11 @@ namespace UITests
 
         public HomePageTest(string browser)
         {
+            // TestFixture属性の値を設定する
             this.browser = browser;
         }
 
+        // OneTimeSetUp属性：TestFixture毎に１度だけ実行する
         [OneTimeSetUp]
         public void Setup()
         {
@@ -45,6 +48,7 @@ namespace UITests
                         Environment.GetEnvironmentVariable("EdgeWebDriver"),
                         new EdgeOptions
                         {
+                            // ChromiumバージョンのEdgeを使用する
                             UseChromium = true
                         }
                     );
@@ -128,6 +132,8 @@ namespace UITests
             Assert.That(modalWasDisplayed, Is.True);
         }
 
+        // FindElementのヘルパーメソッド。
+        // 何かの要素を、WebDriverWaitでタイムアウトを指定して走査する。
         private IWebElement FindElement(By locator, IWebElement parent = null, int timeoutSeconds = 10)
         {
             // WebDriverWait enables us to wait for the specified condition to be true
@@ -150,6 +156,9 @@ namespace UITests
                 });
         }
 
+        // ClickElementのヘルパーメソッド。
+        // クリックしたい要素に対して、JavaScriptのclick()関数を使ってクリックする。
+        // JavaScriptのclick()関数を使うことで、対象の要素が描画される位置までスクロールさせなくて済む。
         private void ClickElement(IWebElement element)
         {
             // We expect the driver to implement IJavaScriptExecutor.
